@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مفاجأة خاصة جداً ✨</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-deep: #070612;
+            --card-bg: rgba(20, 18, 35, 0.75);
+            --accent-purple: #9b51e0;
+            --accent-pink: #ff2a85;
+            --gold: #ffdf00;
+            --text-main: #f5f5f7;
+            --text-muted: #b0b0c0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Lighting Overlay for Cake Scene */
+        #ambient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.94);
+            z-index: 80;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 2.5s ease-in-out;
+        }
+
+        #ambient-overlay.active {
+            opacity: 1;
+        }
+
+        /* Dynamic Background Glow */
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 10% 20%, rgba(155, 81, 224, 0.15) 0%, transparent 45%),
+                        radial-gradient(circle at 90% 80%, rgba(255, 42, 133, 0.15) 0%, transparent 45%);
+            z-index: -2;
+        }
+
+        #effects-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 90;
+        }
+
+        /* Cover Screen */
+        .cover-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0d0b1a 0%, #040308 100%);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease, visibility 1s;
+            cursor: pointer;
+            padding: 20px;
+        }
+
+        .cover-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .gift-box {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(155, 81, 224, 0.6), 0 0 60px rgba(255, 42, 133, 0.5);
+            animation: bounce-pulse 2s infinite alternate ease-in-out;
+        }
+
+        @keyframes bounce-pulse {
+            0% { transform: scale(0.95) translateY(0); }
+            100% { transform: scale(1.05) translateY(-8px); }
+        }
+
+        .gift-box i {
+            font-size: 45px;
+            color: #fff;
+        }
+
+        .cover-title {
+            margin-top: 25px;
+            font-size: 1.7rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #d8b4fe, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        .cover-hint {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            animation: fadeInOut 1.5s infinite alternate;
+        }
+
+        /* Intro Teaser Screen (0s to 19s) */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(7, 6, 18, 0.96);
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .intro-screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mystery-orb {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 215, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            animation: spin-slow 12s linear infinite;
+        }
+
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .mystery-orb i {
+            font-size: 50px;
+            color: var(--gold);
+            animation: pulse-icon 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-icon {
+            0% { transform: scale(0.85); opacity: 0.7; }
+            100% { transform: scale(1.15); opacity: 1; }
+        }
+
+        /* Professional Cinematic Subtitle Box & Animations */
+        .subtitle-container {
+            position: relative;
+            min-height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .intro-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0 0 25px rgba(255, 42, 133, 0.7), 0 0 10px rgba(255, 215, 0, 0.5);
+            background: linear-gradient(90deg, #ffd700, #ff758c, #d8b4fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(30px) scale(0.85);
+            filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute;
+        }
+
+        .intro-text.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        .intro-text.exit {
+            opacity: 0;
+            transform: translateY(-30px) scale(1.1);
+            filter: blur(10px);
+        }
+
+        .intro-subtext {
+            margin-top: 25px;
+            font-size: 1rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* Main Container */
+        .main-container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px 15px 120px;
+            display: none;
+        }
+
+        .main-container.visible {
+            display: block;
+        }
+
+        /* Reveal Animation for Elements */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(35px) scale(0.96);
+            transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .reveal-item.shown {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        /* Avatar Container */
+        .avatar-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            padding: 3px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink), var(--gold));
+            position: relative;
+            box-shadow: 0 0 25px rgba(255, 42, 133, 0.4);
+            animation: rotate-border 6s linear infinite;
+        }
+
+        .avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .avatar-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .avatar-container:hover img {
+            transform: scale(1.1);
+        }
+
+        .birthday-announcement {
+            font-size: 1.35rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ffd700, #ff758c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 12px;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* Countdown Grid */
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 10px 5px;
+        }
+
+        .time-num {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #d8b4fe;
+        }
+
+        .time-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .btn-celebrate {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 42, 133, 0.4);
+            transition: transform 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .btn-celebrate:active {
+            transform: scale(0.97);
+        }
+
+        /* Photo Gallery Slider */
+        .section-header {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-header i {
+            color: var(--accent-pink);
+        }
+
+        .slider-box {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0,0,0,0.3);
+            padding: 8px 0;
+            margin-bottom: 25px;
+        }
+
+        .slider-track {
+            display: flex;
+            width: max-content;
+            animation: scroll-left 18s linear infinite;
+        }
+
+        .slider-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(50%); }
+        }
+
+        .slide-img {
+            width: 105px;
+            height: 135px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin: 0 6px;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        /* Wishes Form */
+        .wish-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .wish-form input, .wish-form textarea {
+            width: 100%;
+            padding: 11px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .wish-form input:focus, .wish-form textarea:focus {
+            border-color: var(--accent-pink);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: #070612;
+            border: none;
+            padding: 11px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 223, 0, 0.3);
+        }
+
+        .wishes-list {
+            margin-top: 15px;
+            max-height: 170px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: right;
+        }
+
+        .wish-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 12px;
+            border-radius: 10px;
+            border-right: 3px solid var(--accent-pink);
+        }
+
+        .wish-author {
+            font-weight: 700;
+            color: #f472b6;
+            font-size: 0.9rem;
+        }
+
+        .wish-text {
+            color: #d0d0e0;
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+
+        /* Birthday Cake Section (Clicking anywhere on card toggles candle and restores light) */
+        .cake-card {
+            position: relative;
+            z-index: 85;
+            background: linear-gradient(145deg, rgba(30, 25, 55, 0.9), rgba(15, 12, 30, 0.95));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 24px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.15);
+            margin-top: 40px;
+            transition: box-shadow 2.5s ease-in-out, border-color 2.5s ease-in-out;
+            cursor: pointer;
+        }
+
+        .cake-card.highlighted {
+            z-index: 100;
+            border-color: rgba(255, 215, 0, 0.9);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.7), 0 0 100px rgba(255, 120, 0, 0.4);
+        }
+
+        /* SVG Animated Cake & Candle */
+        .cake-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 20px;
+            pointer-events: none;
+        }
+
+        .cake-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Candle Flame Dynamic Effect */
+        .flame {
+            transform-origin: center bottom;
+            opacity: 0;
+            transition: opacity 2.5s ease-in-out, transform 0.3s ease;
+        }
+
+        .flame.lit {
+            opacity: 1;
+            animation: flicker 0.15s ease-in-out infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); filter: drop-shadow(0 0 8px #ffaa00); }
+            100% { transform: scale(1.15) rotate(2deg); filter: drop-shadow(0 0 18px #ff4500); }
+        }
+
+        /* Cake Verses/Phrases Styling */
+        .cake-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+            pointer-events: none;
+        }
+
+        .cake-phrase {
+            font-size: 1.25rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ffd700, #ff758c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+
+        .cake-phrase.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Floating Controls Bar */
+        .floating-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .ctrl-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(20, 18, 35, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--gold);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            transition: transform 0.2s, background 0.3s;
+            position: relative;
+        }
+
+        .ctrl-btn:active {
+            transform: scale(0.92);
+        }
+
+        .ctrl-btn.active {
+            background: var(--gold);
+            color: #070612;
+        }
+
+        /* Mini countdown timer badge on controls bar */
+        .mini-timer-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: var(--accent-pink);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(255, 42, 133, 0.5);
+            pointer-events: none;
+            display: none;
+        }
+
+        /* Toast Popup */
+        .toast {
+            position: fixed;
+            bottom: 75px;
+            left: 20px;
+            background: var(--gold);
+            color: #070612;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 15px rgba(255, 223, 0, 0.4);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            z-index: 101;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+    <div id="ambient-overlay"></div>
+    <canvas id="effects-canvas"></canvas>
+
+    <!-- 1. Cover Welcome Screen -->
+    <div class="cover-screen" id="coverScreen">
+        <div class="gift-box">
+            <i class="fa-solid fa-sparkles"></i>
+        </div>
+        <h1 class="cover-title">مفاجأة خاصة جداً ✨</h1>
+        <p class="cover-hint">اضغط هنا لبدء التجربة والموسيقى 🎵</p>
+    </div>
+
+    <!-- 2. Interactive Mystery Screen (0s to 19s) with exact SRT subtitle timeline -->
+    <div class="intro-screen" id="introScreen">
+        <div class="mystery-orb">
+            <i class="fa-solid fa-cake-candles" id="introIcon"></i>
+        </div>
+        <div class="subtitle-container">
+            <div class="intro-text" id="introText">جاري التحضير للمفاجأة... ✨</div>
+        </div>
+        <div class="intro-subtext" id="introSubtext">يرجى رفع الصوت والاستمتاع بالموسيقى 🎧</div>
+    </div>
+
+    <!-- Background Audio -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="audio.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 3. Main Container (Appears strictly at 19 seconds) -->
+    <div class="main-container" id="mainContainer">
+        
+        <!-- Profile & Photo Card -->
+        <div class="card reveal-item" id="cardProfile">
+            <div class="avatar-container">
+                <div class="avatar-inner">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="صورتي">
+                </div>
+            </div>
+            
+            <h2 class="birthday-announcement">النهارده عيد ميلادي 🥰</h2>
+            <p class="subtitle">يوم مميز، طاقة إيجابية، وأجواء غير تقليدية!</p>
+
+            <div class="countdown-grid">
+                <div class="time-box">
+                    <div class="time-num" id="days">00</div>
+                    <div class="time-label">يوم</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-num" id="hours">00</div>
+                    <div class="time-label">ساعة</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-num" id="mins">00</div>
+                    <div class="time-label">دقيقة</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-num" id="secs">00</div>
+                    <div class="time-label">ثانية</div>
+                </div>
+            </div>
+
+            <button class="btn-celebrate" id="btnFirework">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> تفجير الاحتفال والألعاب النارية!
+            </button>
+        </div>
+
+        <!-- Photo Gallery Slider -->
+        <div class="reveal-item" id="cardGallery">
+            <h3 class="section-header"><i class="fa-solid fa-photo-film"></i> ألبوم الصور والذكريات</h3>
+            <div class="slider-box">
+                <div class="slider-track">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=400&q=80" alt="صورة 1">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=400&q=80" alt="صورة 2">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&q=80" alt="صورة 3">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80" alt="صورة 4">
+                    
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=400&q=80" alt="صورة 1">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=400&q=80" alt="صورة 2">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&q=80" alt="صورة 3">
+                    <img class="slide-img" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80" alt="صورة 4">
+                </div>
+            </div>
+        </div>
+
+        <!-- Guestbook / Wishes Form -->
+        <div class="card reveal-item" id="cardWishes" style="text-align: right;">
+            <h3 class="section-header" style="justify-content: flex-start;"><i class="fa-solid fa-pen-nib"></i> دفتر التهاني والأمنيات</h3>
+            <form class="wish-form" id="wishForm">
+                <input type="text" id="senderName" placeholder="اسمك الكريم" required>
+                <textarea id="senderMsg" rows="3" placeholder="اكتب أمنية أو رسالة تهنئة لطيفة..." required></textarea>
+                <button type="submit" class="btn-submit">إرسال التهنئة</button>
+            </form>
+
+            <div class="wishes-list" id="wishesList">
+                <div class="wish-card">
+                    <div class="wish-author">ياسمين أحمد</div>
+                    <div class="wish-text">كل سنة وأنت بألف خير، سنة سعيدة ومحقق فيها كل أحلامك! ✨</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Birthday Cake Box (Appears at 54s, Clicking anywhere on this card toggles candle and restores light) -->
+        <div class="cake-card reveal-item" id="cakeCard" title="اضغط هنا لإشعال/إطفاء الشمعة وإعادة النور">
+            <div class="cake-container">
+                <svg class="cake-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Plate -->
+                    <ellipse cx="100" cy="170" rx="85" ry="18" fill="#e2e8f0" opacity="0.9"/>
+                    <ellipse cx="100" cy="168" rx="75" ry="14" fill="#ffffff"/>
+                    
+                    <!-- Cake Bottom Layer -->
+                    <path d="M 35,130 Q 100,150 165,130 L 165,160 Q 100,180 35,160 Z" fill="#ff2a85"/>
+                    <path d="M 35,130 Q 100,150 165,130 L 165,135 Q 100,155 35,135 Z" fill="#ff758c"/>
+                    
+                    <!-- Cake Top Layer -->
+                    <path d="M 50,95 Q 100,112 150,95 L 150,130 Q 100,150 50,130 Z" fill="#9b51e0"/>
+                    
+                    <!-- Cream Drips -->
+                    <path d="M 50,95 Q 60,110 70,98 Q 80,114 90,99 Q 100,115 110,98 Q 120,114 130,98 Q 140,112 150,95 Q 100,82 50,95 Z" fill="#ffffff"/>
+                    
+                    <!-- Candle Base -->
+                    <rect x="94" y="55" width="12" height="38" rx="4" fill="#ffd700"/>
+                    <line x1="94" y1="65" x2="106" y2="60" stroke="#ff4500" stroke-width="2"/>
+                    <line x1="94" y1="78" x2="106" y2="73" stroke="#ff4500" stroke-width="2"/>
+                    
+                    <!-- Candle Wick -->
+                    <line x1="100" y1="55" x2="100" y2="47" stroke="#333" stroke-width="2"/>
+
+                    <!-- Candle Flame -->
+                    <g class="flame" id="candleFlame">
+                        <path d="M 100,18 C 92,30 94,44 100,47 C 106,44 108,30 100,18 Z" fill="#ff9900"/>
+                        <path d="M 100,24 C 95,33 97,42 100,45 C 103,42 105,33 100,24 Z" fill="#ffea00"/>
+                        <circle cx="100" cy="38" r="4" fill="#ffffff"/>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Phrased Verses -->
+            <div class="cake-messages">
+                <div class="cake-phrase" id="phrase1">ولع الشمع ولع 🔥</div>
+                <div class="cake-phrase" id="phrase2">يلا نطفي النور 🌙</div>
+                <div class="cake-phrase" id="phrase3">على التورتة هنتجمع 🎂✨</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Floating Controls Bar -->
+    <div class="floating-controls">
+        <button class="ctrl-btn active" id="btnAudio" title="تشغيل / كتم الموسيقى">
+            <i class="fa-solid fa-music"></i>
+        </button>
+        <button class="ctrl-btn active" id="btnAutoScroll" title="تشغيل / إيقاف التمرير التلقائي">
+            <i class="fa-solid fa-arrows-up-down"></i>
+            <span class="mini-timer-badge" id="miniTimerBadge">54s</span>
+        </button>
+        <button class="ctrl-btn" id="btnShare" title="مشاركة الرابط">
+            <i class="fa-solid fa-share-nodes"></i>
+        </button>
+    </div>
+
+    <div class="toast" id="toast">تم نسخ الرابط بنجاح!</div>
+
+    <script>
+        // UI Elements
+        const coverScreen = document.getElementById('coverScreen');
+        const introScreen = document.getElementById('introScreen');
+        const mainContainer = document.getElementById('mainContainer');
+        const introText = document.getElementById('introText');
+
+        const bgAudio = document.getElementById('bgAudio');
+        const btnAudio = document.getElementById('btnAudio');
+        const btnAutoScroll = document.getElementById('btnAutoScroll');
+        const btnShare = document.getElementById('btnShare');
+        const btnFirework = document.getElementById('btnFirework');
+        const toast = document.getElementById('toast');
+
+        const ambientOverlay = document.getElementById('ambient-overlay');
+        const cakeCard = document.getElementById('cakeCard');
+        const candleFlame = document.getElementById('candleFlame');
+        const miniTimerBadge = document.getElementById('miniTimerBadge');
+
+        let isAudioPlaying = false;
+        let autoScrollEnabled = true;
+        let candleLitState = false;
+        let totalElapsedSeconds = 0;
+        let timerInterval = null;
+
+        // Click Event - Starts Timeline Sequence
+        coverScreen.addEventListener('click', () => {
+            playAudio();
+            coverScreen.classList.add('hidden');
+            introScreen.classList.add('active');
+            initCanvasEffects();
+            startTimelineSequence();
+        });
+
+        // Helper function for showing subtitles with advanced cinematic animation (In, Hold, Out)
+        function showSubtitle(text, showDelay, hideDelay, triggerBurstAction = false) {
+            setTimeout(() => {
+                introText.textContent = text;
+                introText.classList.remove('exit');
+                introText.classList.add('active');
+                if (triggerBurstAction) {
+                    triggerBurst();
+                }
+            }, showDelay);
+
+            setTimeout(() => {
+                introText.classList.remove('active');
+                introText.classList.add('exit');
+            }, hideDelay);
+        }
+
+        // Timeline Controller synchronized precisely with SRT subtitle timings
+        function startTimelineSequence() {
+            miniTimerBadge.style.display = "block";
+            totalElapsedSeconds = 0;
+            
+            timerInterval = setInterval(() => {
+                totalElapsedSeconds++;
+                let remainingToCake = Math.max(0, 54 - totalElapsedSeconds);
+                if (remainingToCake > 0) {
+                    miniTimerBadge.textContent = remainingToCake + 's';
+                } else {
+                    miniTimerBadge.style.display = "none";
+                    clearInterval(timerInterval);
+                }
+            }, 1000);
+
+            // Pre-intro state
+            setTimeout(() => {
+                introText.textContent = "جاري التحضير لمفاجأة مميزة... ✨";
+                introText.classList.add('active');
+            }, 0);
+
+            // 1. 00:00:11,071 --> 00:00:12,117 : "يا جماعة 🥰💕"
+            showSubtitle("يا جماعة 🥰💕", 11071, 12117);
+
+            // 2. 00:00:12,881 --> 00:00:14,031 : "النهارده يوم مش عادي 🫣🌚"
+            showSubtitle("النهارده يوم مش عادي 🫣🌚", 12881, 14031);
+
+            // 3. 00:00:14,226 --> 00:00:15,686 : "احلى يوم في حياتي 🫶"
+            showSubtitle("احلى يوم في حياتي 🫶", 14226, 15686);
+
+            // 4. 00:00:15,869 --> 00:00:17,218 : "عشان في ضهري اخواتي😎"
+            showSubtitle("عشان في ضهري اخواتي 😎", 15869, 17218, true);
+
+            // 5. 00:00:17,546 --> 00:00:18,730 : "هتولع الليلة دي 🕯 🔥"
+            showSubtitle("هتولع الليلة دي 🔥🔥", 17546, 18730);
+
+            // 6. 00:00:18,730 --> 00:00:20,558 : "النهارده عيد ميلادي 😍☺️"
+            showSubtitle("النهارده عيد ميلادي 😍☺️", 18730, 20558, true);
+
+            // Exactly at 19 Seconds: Full Reveal & Main Page Show
+            setTimeout(() => {
+                introScreen.classList.remove('active');
+                mainContainer.classList.add('visible');
+                triggerBurst();
+                setTimeout(triggerBurst, 400);
+
+                // Sequential Component Reveal
+                setTimeout(() => document.getElementById('cardProfile').classList.add('shown'), 200);
+                setTimeout(() => document.getElementById('cardGallery').classList.add('shown'), 1000);
+                setTimeout(() => document.getElementById('cardWishes').classList.add('shown'), 1800);
+            }, 19000);
+
+            // Exactly at 54 Seconds - Auto Scroll Begins Down to Cake Box
+            setTimeout(() => {
+                cakeCard.classList.add('shown');
+                if (autoScrollEnabled) {
+                    smoothScrollToCake(5000);
+                }
+            }, 54000);
+
+            // Exactly at 60 Seconds - Cake Ritual (Dimming, Flame Ignition & Phrases)
+            setTimeout(() => {
+                triggerCakeRitual();
+            }, 60000);
+        }
+
+        // Smooth Auto Scroll Helper
+        function smoothScrollToCake(duration) {
+            const targetY = cakeCard.getBoundingClientRect().top + window.pageYOffset - (window.innerHeight / 2) + (cakeCard.offsetHeight / 2);
+            const startY = window.pageYOffset;
+            const distance = targetY - startY;
+            let startTime = null;
+
+            function step(currentTime) {
+                if (!autoScrollEnabled) return;
+                if (!startTime) startTime = currentTime;
+                const progress = Math.min((currentTime - startTime) / duration, 1);
+                const easeInOut = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+                
+                window.scrollTo(0, startY + (distance * easeInOut));
+                
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            }
+            requestAnimationFrame(step);
+        }
+
+        // Cake Ritual Function (Dimming, Flame, Phrases & Fireworks)
+        function triggerCakeRitual() {
+            ambientOverlay.classList.add('active');
+            cakeCard.classList.add('highlighted');
+
+            setTimeout(() => {
+                candleFlame.classList.add('lit');
+                candleLitState = true;
+                triggerBurst();
+            }, 1000);
+
+            setTimeout(() => document.getElementById('phrase1').classList.add('show'), 1800);
+            setTimeout(() => document.getElementById('phrase2').classList.add('show'), 3200);
+            setTimeout(() => document.getElementById('phrase3').classList.add('show'), 4600);
+
+            setTimeout(() => {
+                triggerBurst();
+            }, 5000);
+        }
+
+        // Interactive toggle: clicking anywhere on the cake card turns off/on the candle and restores light
+        cakeCard.addEventListener('click', () => {
+            candleLitState = !candleLitState;
+            if (candleLitState) {
+                ambientOverlay.classList.add('active');
+                cakeCard.classList.add('highlighted');
+                candleFlame.classList.add('lit');
+                showToast('تم إشعال الشمعة وإضاءة الأجواء ✨');
+            } else {
+                ambientOverlay.classList.remove('active');
+                cakeCard.classList.remove('highlighted');
+                candleFlame.classList.remove('lit');
+                showToast('تم إطفاء الشمعة وإعادة النور الطبيعي ☀️');
+            }
+        });
+
+        // Auto Scroll Toggle Button
+        btnAutoScroll.addEventListener('click', () => {
+            autoScrollEnabled = !autoScrollEnabled;
+            if (autoScrollEnabled) {
+                btnAutoScroll.classList.add('active');
+                showToast('تم تفعيل التمرير التلقائي');
+            } else {
+                btnAutoScroll.classList.remove('active');
+                showToast('تم إيقاف التمرير التلقائي');
+            }
+        });
+
+        // Audio Handler
+        function playAudio() {
+            bgAudio.play().then(() => {
+                isAudioPlaying = true;
+                btnAudio.classList.add('active');
+                btnAudio.innerHTML = '<i class="fa-solid fa-music"></i>';
+            }).catch(() => {
+                isAudioPlaying = false;
+                btnAudio.classList.remove('active');
+                btnAudio.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+            });
+        }
+
+        btnAudio.addEventListener('click', () => {
+            if (isAudioPlaying) {
+                bgAudio.pause();
+                isAudioPlaying = false;
+                btnAudio.classList.remove('active');
+                btnAudio.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+            } else {
+                playAudio();
+            }
+        });
+
+        // Share Feature
+        btnShare.addEventListener('click', () => {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'النهارده عيد ميلادي!',
+                    text: 'تعال واحتفل معي في يوم ميلادي المميز!',
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    showToast('تم نسخ الرابط!');
+                });
+            }
+        });
+
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // Wishes Form
+        document.getElementById('wishForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('senderName').value;
+            const msg = document.getElementById('senderMsg').value;
+
+            if (name.trim() && msg.trim()) {
+                const list = document.getElementById('wishesList');
+                const card = document.createElement('div');
+                card.className = 'wish-card';
+                card.innerHTML = `
+                    <div class="wish-author">${escapeHtml(name)}</div>
+                    <div class="wish-text">${escapeHtml(msg)}</div>
+                `;
+                list.prepend(card);
+
+                document.getElementById('senderName').value = '';
+                document.getElementById('senderMsg').value = '';
+                showToast('شكراً لك! تم إضافة تهنئتك.');
+                triggerBurst();
+            }
+        });
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        // Countdown Timer Logic
+        function updateCountdown() {
+            const now = new Date();
+            let targetYear = now.getFullYear();
+            let target = new Date(`January 29, ${targetYear + 1} 00:00:00`);
+            
+            const diff = target - now;
+            if (diff > 0) {
+                document.getElementById('days').textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').textContent = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                document.getElementById('mins').textContent = Math.floor((diff / 1000 / 60) % 60);
+                document.getElementById('secs').textContent = Math.floor((diff / 1000) % 60);
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Canvas Fireworks & Particle System
+        const canvas = document.getElementById('effects-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        let particles = [];
+        const colors = ['#9b51e0', '#ff2a85', '#ffd700', '#00f2fe', '#ffffff'];
+
+        class Particle {
+            constructor(x, y, isExplosion = false) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 4 + 2;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                if (isExplosion) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 7 + 2;
+                    this.speedX = Math.cos(angle) * speed;
+                    this.speedY = Math.sin(angle) * speed;
+                    this.gravity = 0.08;
+                    this.alpha = 1;
+                    this.decay = Math.random() * 0.02 + 0.015;
+                } else {
+                    this.speedY = Math.random() * 2 + 1;
+                    this.speedX = Math.random() * 1.5 - 0.75;
+                    this.gravity = 0;
+                    this.alpha = Math.random() * 0.7 + 0.3;
+                    this.decay = 0;
+                }
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.speedY += this.gravity;
+                if (this.decay > 0) {
+                    this.alpha -= this.decay;
+                } else if (this.y > height) {
+                    this.y = -10;
+                    this.x = Math.random() * width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(this.alpha, 0);
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function initCanvasEffects() {
+            particles = [];
+            for (let i = 0; i < 40; i++) {
+                particles.push(new Particle(Math.random() * width, Math.random() * height));
+            }
+            animate();
+        }
+
+        function triggerBurst() {
+            const centerX = width / 2;
+            const centerY = height / 3;
+            for (let i = 0; i < 85; i++) {
+                particles.push(new Particle(centerX, centerY, true));
+            }
+        }
+
+        btnFirework.addEventListener('click', triggerBurst);
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                if (p.alpha <= 0) {
+                    particles.splice(index, 1);
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+    </script>
+</body>
+</html>
